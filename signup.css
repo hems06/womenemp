@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #c29ce1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.signup-container {
+    background: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    padding: 30px;
+    width: 350px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover Effect */
+.signup-container:hover {
+    background: rgba(255, 255, 255, 0.7); /* More transparency */
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.input-box, select, button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.input-box{
+    width: 325px;
+}
+.role{
+    width: 375px;
+}
+button {
+    background-color: rgb(31, 30, 30);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+button:hover {
+    background-color: #3a3c3e;
+}
+p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+.signup-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    width: 350px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    position: relative; /* Needed for absolute positioning */
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Image Styling */
+.signup-image {
+    width: 100px;
+    height: 100px;
+    background-image: url('signupimage.jpg'); /* Path to your image */
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%; /* Makes the image circular */
+    border: 4px solid white;
+    position: absolute;
+    top: -50px; /* Moves image above the container */
+    left: 50%;
+    transform: translateX(-50%);
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Poster Login</title>
+    <link rel="stylesheet" href="login.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <section class="login-container">
+        <h2>Job Poster Login</h2>
+        <input type="email" id="email" placeholder="Enter Email" class="input-box">
+        <input type="password" id="password" placeholder="Enter Password" class="input-box">
+        <button onclick="login()">Login</button>
+        <p>Don't have an account? <a href="signupjobposter.html">Sign Up</a></p>
+    </section>
+
+    <script>
+        // Initialize Firebase (Replace with your Firebase config)
+       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAgQvjJXj1heCs1FcsQLZRLOu3ibILQUcc",
+  authDomain: "loginposter-e4377.firebaseapp.com",
+  projectId: "loginposter-e4377",
+  storageBucket: "loginposter-e4377.firebasestorage.app",
+  messagingSenderId: "848089064656",
+  appId: "1:848089064656:web:5cbaeb071866ba4baeead5",
+  measurementId: "G-BEVC9Z2DW0"
+};
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        document.getElementById('email').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('password').focus();
+            }
+        });
+
+        document.getElementById('password').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                login();
+            }
+        });
+
+        function login() {
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+
+                    // Check if the user is a job poster
+                    db.collection("jobposters").doc(user.uid).get()
+                        .then((doc) => {
+                            if (doc.exists) {
+                                // User is a job poster, redirect to dashboard
+                                window.location.href = 'jobposterdashboard.html';
+                            } else {
+                                // User is not a job poster, show error or redirect to a different page
+                                alert("You are not registered as a job poster.");
+                                auth.signOut(); // Sign out the user
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Error getting document:", error);
+                            alert("Login failed. Please try again.");
+                            auth.signOut(); // Sign out the user
+                        });
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert("Login failed: " + errorMessage);
+                    console.error("Login error:", errorCode, errorMessage);
+                });
+        }
+    </script>
+</body>
+</html>

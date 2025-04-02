@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker Sign Up</title>
+    <link rel="stylesheet" href="signup.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <section class="signup-container">
+        <div class="signup-image"></div>
+        <h2>Job Seeker Sign Up</h2>
+        <input type="text" id="fullname" placeholder="Full Name" class="input-box">
+        <input type="text" id="username" placeholder="Enter Username" class="input-box">
+        <input type="email" id="email" placeholder="Enter Email" class="input-box">
+        <input type="password" id="password" placeholder="Enter Password" class="input-box">
+        <input type="password" id="confirm-password" placeholder="Confirm Password" class="input-box">
+        <button id="signupButton">Sign Up</button>
+        <p>Already have an account? <a href="loginseeker.html">Login</a></p>
+    </section>
+
+    <script>
+        // Initialize Firebase (Replace with secure Firebase config)
+        const firebaseConfig = {
+  apiKey: "AIzaSyATcs0U-Jv49xiHCzg--q4U6tO4iTMqO2w",
+  authDomain: "loginseekar.firebaseapp.com",
+  projectId: "loginseekar",
+  storageBucket: "loginseekar.firebasestorage.app",
+  messagingSenderId: "673255347508",
+  appId: "1:673255347508:web:ac8b68d5ebec2374d84161"
+};
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Handle Enter key navigation
+        document.querySelectorAll('.input-box').forEach((input, index, inputs) => {
+            input.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    } else {
+                        document.getElementById("signupButton").click();
+                    }
+                }
+            });
+        });
+
+        document.getElementById("signupButton").addEventListener("click", function() {
+            let fullname = document.getElementById('fullname').value.trim();
+            let username = document.getElementById('username').value.trim();
+            let email = document.getElementById('email').value.trim();
+            let password = document.getElementById('password').value;
+            let confirmPassword = document.getElementById('confirm-password').value;
+
+            // Validate input fields
+            if (!fullname || !username || !email || !password || !confirmPassword) {
+                alert("All fields are required.");
+                return;
+            }
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters long.");
+                return;
+            }
+
+            // Disable button to prevent multiple requests
+            document.getElementById("signupButton").disabled = true;
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    return db.collection("jobseekers").doc(user.uid).set({
+                        fullname: fullname,
+                        username: username,
+                        email: email
+                    });
+                })
+                .then(() => {
+                    alert("Signup successful! Redirecting to login page.");
+                    window.location.href = 'loginseeker.html';
+                })
+                .catch((error) => {
+                    document.getElementById("signupButton").disabled = false;
+                    if (error.code === "auth/email-already-in-use") {
+                        alert("Email is already registered. Please use a different email.");
+                    } else if (error.code === "auth/weak-password") {
+                        alert("Password is too weak. Please use a stronger password.");
+                    } else {
+                        alert("Signup failed: " + error.message);
+                    }
+                });
+        });
+    </script>
+</body>
+</html>

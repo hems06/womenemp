@@ -1,0 +1,146 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #D1A3FF;
+    color: black;
+    display: flex;
+    overflow-x: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #E6CCFF;
+    position: fixed;
+    left: -250px;
+    top: 0;
+    transition: 0.3s ease;
+    padding-top: 20px;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar h2 {
+    color: #3498db;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 15px;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    text-align: center;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: rgb(76, 76, 76);
+    font-size: 1.1rem;
+    display: block;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.sidebar ul li .logout {
+    background: #ff4444;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sidebar ul li a:hover {
+    background: #b68eff;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(125, 143, 29, 0.3);
+    transform: scale(1.05);
+}
+
+/* Content */
+.content {
+    margin-left: 0;
+    width: 100%;
+    transition: margin-left 0.3s ease;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background:#E6CCFF;
+    color: #3498db;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.menu-btn {
+    font-size: 1.5rem;
+    background: none;
+    color: #3498db;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dashboard */
+.dashboard {
+    padding: 20px;
+    text-align: center;
+    color: #3498db;
+}
+
+.jobs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.job-card {
+    background:#E6CCFF;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    color: black;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.job-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 15px rgba(125, 143, 29, 0.4);
+}
+
+.apply-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.apply-btn:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
+
+/* Sidebar Active */
+.sidebar.active {
+    left: 0;
+}
+
+.content.active {
+    margin-left: 250px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+    .content.active {
+        margin-left: 200px;
+    }
+}
